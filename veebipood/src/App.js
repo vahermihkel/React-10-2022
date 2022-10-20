@@ -36,6 +36,10 @@ function App() {
       <Link to="/meist">
         <button className="nupp">Meist</button>
       </Link>
+      <Link to="/poed">
+        <button className="nupp">Poed</button>
+      </Link>
+
 
       <Routes>
         <Route path="" element={ <Avaleht /> } />

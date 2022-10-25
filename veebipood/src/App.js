@@ -39,6 +39,9 @@ function App() {
       <Link to="/poed">
         <button className="nupp">Poed</button>
       </Link>
+      <Link to="/halda-tooteid">
+        <button className="nupp">Halda tooteid</button>
+      </Link>
 
 
       <Routes>

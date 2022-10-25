@@ -26,10 +26,23 @@ function Avaleht() {
 
   const tooted = JSON.parse(localStorage.getItem("tooted")) || [];
 
+                          // "Tesla"
+  const lisaOstukorvi = (klikitudToode) => {
+    let ostukorvLS = localStorage.getItem("ostukorv");   //  1. null       2. "["Nobe"]"
+    ostukorvLS = JSON.parse(ostukorvLS) || [];  // 1. []    2. ["Nobe"]
+    ostukorvLS.push(klikitudToode);  // 1. [].push("nobe")  => ["Nobe"].push("Tesla") => ["Nobe", "Tesla"]
+    ostukorvLS = JSON.stringify(ostukorvLS); // 1. "["Nobe"]"    2. "["Nobe", "Tesla"]"
+    localStorage.setItem("ostukorv", ostukorvLS); // "ostukorv" | "["Nobe"]"       "ostukorv" | "["Nobe", "Tesla"]"
+  }
+
   return ( 
     <div>
       {/* tooted.map is not a function */}
-      {tooted.map((toode, index) => <div key={index}>{toode}</div>)}
+      {tooted.map((toode, index) => 
+        <div key={index}>
+          {toode}
+          <button onClick={() => lisaOstukorvi(toode)}>Lisa ostukorvi</button>
+        </div>)}
 
       <br /><br /><br />
 

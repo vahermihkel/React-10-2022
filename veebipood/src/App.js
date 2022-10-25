@@ -50,10 +50,10 @@ function App() {
         <Route path="ostukorv" element={ <Ostukorv /> } />
         <Route path="halda-tooteid" element={ <HaldaTooteid /> } />
         <Route path="meist" element={ <Meist /> } />
-        <Route path="muuda-toode" element={ <MuudaToode /> } />
+        <Route path="muuda-toode/:index" element={ <MuudaToode /> } />
         <Route path="poed" element={ <Poed /> } />
         <Route path="seaded" element={ <Seaded /> } />
-        <Route path="toode" element={ <YksikToode /> } />
+        <Route path="toode/:j2rjekorraNumber" element={ <YksikToode /> } />
       </Routes>
     </div>
   );

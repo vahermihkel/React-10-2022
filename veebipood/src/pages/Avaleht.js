@@ -1,6 +1,7 @@
 // ffc + enter <-----    Simple React Snippets
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Avaleht() {
 
@@ -40,7 +41,9 @@ function Avaleht() {
       {/* tooted.map is not a function */}
       {tooted.map((toode, index) => 
         <div key={index}>
-          {toode}
+          <Link to={"/toode/" + index}>
+            {toode}
+          </Link>
           <button onClick={() => lisaOstukorvi(toode)}>Lisa ostukorvi</button>
         </div>)}
 

@@ -41,11 +41,11 @@ function Seaded() {
 
       <div>
         <label>Meie telefon</label>
-        <input ref={telRef} type="text" />
+        <input defaultValue={localStorage.getItem("telefon")} ref={telRef} type="text" />
         <button onClick={sisestaTel}>Sisesta</button>
         <br />
         <label>Meie email</label>
-        <input ref={emailRef} type="text" />
+        <input defaultValue={localStorage.getItem("email")} ref={emailRef} type="text" />
         <button onClick={sisestaEmail}>Sisesta</button>
         <br />
       </div>

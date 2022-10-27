@@ -39,14 +39,14 @@ function Avaleht() {
   return ( 
     <div>
       {/* tooted.map is not a function */}
-      {tooted.map((toode, index) => 
+      {tooted.filter(element => element.aktiivne === true).map((toode, index) => 
         <div key={index}>
           <Link to={"/toode/" + index}>
             {/* <div>{toode.pilt}</div> */}
             <img src={toode.pilt} alt="" />
             <div>{toode.nimi}</div>
             <div>{toode.hind}</div>
-            <div>{toode.aktiivne}</div>
+            {/* <div>{toode.aktiivne}</div> */}
           </Link>
           <button onClick={() => lisaOstukorvi(toode)}>Lisa ostukorvi</button>
         </div>)}

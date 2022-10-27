@@ -42,7 +42,11 @@ function Avaleht() {
       {tooted.map((toode, index) => 
         <div key={index}>
           <Link to={"/toode/" + index}>
-            {toode}
+            {/* <div>{toode.pilt}</div> */}
+            <img src={toode.pilt} alt="" />
+            <div>{toode.nimi}</div>
+            <div>{toode.hind}</div>
+            <div>{toode.aktiivne}</div>
           </Link>
           <button onClick={() => lisaOstukorvi(toode)}>Lisa ostukorvi</button>
         </div>)}

@@ -4,25 +4,28 @@ import poedFailist from "../poed.json";
 function Poed() {
   const [poed, uuendaPoed] = useState( poedFailist );
   const nimiRef = useRef();
+  const aegRef = useRef();
 
   // function sorteeri() {
 
   // }
 
   const sorteeriAZ = () => {
-    poed.sort();
+    poed.sort((a,b) => a.nimi.localeCompare(b.nimi));
+    // poed.sort();
     // uuendaPoed([...poed]);
     uuendaPoed(poed.slice());
   }
 
   const sorteeriZA = () => {
-    poed.sort();
-    poed.reverse();
+    poed.sort((a,b) => b.nimi.localeCompare(a.nimi));
+    // poed.sort();
+    // poed.reverse();
     uuendaPoed(poed.slice());
   }
 
   const filtreeri = () => {
-    const vastus = poed.filter(pood => pood.includes("mäe"));
+    const vastus = poed.filter(pood => pood.nimi.includes("mäe"));
     uuendaPoed(vastus);
   }
 
@@ -32,12 +35,13 @@ function Poed() {
   }
 
   const muudaSuureks = () => {
-    const vastus = poed.map(pood => pood.toUpperCase());
+    // const vastus = poed.map(pood => {return {"nimi": pood.nimi.toUpperCase(), "aeg": pood.aeg}});
+    const vastus = poed.map(pood => {return {...pood, "nimi": pood.nimi.toUpperCase()}});
     uuendaPoed(vastus);
   }
 
   const lisa = () => {
-    poed.push(nimiRef.current.value);
+    poed.push({"nimi": nimiRef.current.value, "aeg": aegRef.current.value});
     uuendaPoed(poed.slice());
   }
 
@@ -49,11 +53,15 @@ function Poed() {
       <button onClick={muudaSuureks}>Muuda igaüht</button>
       { poed.map((pood,j2rjekorraNumber) => 
         <div key={j2rjekorraNumber}>
-          {pood} <button onClick={() => kustuta(j2rjekorraNumber)}>x</button>
+          <div>{pood.nimi}</div>
+          <div>Lahtiolekuaeg: {pood.aeg}</div>
+          <button onClick={() => kustuta(j2rjekorraNumber)}>x</button>
         </div>) }
 
       <label>Uue poe nimi</label> <br />
       <input ref={nimiRef} type="text" /> <br />
+      <label>Uue poe lahtiolekuaeg</label> <br />
+      <input ref={aegRef} type="text" /> <br />
       <button onClick={lisa}>Lisa</button> <br />
 
       {/* <div key={0}>Kristiine <button onClick={() => kustuta(0)}>x</button></div>

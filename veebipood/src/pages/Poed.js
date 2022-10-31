@@ -45,6 +45,9 @@ function Poed() {
     uuendaPoed(poed.slice());
   }
 
+  // .push, .splice, .sort muteerib
+  // .filter, .map returnivad
+
   return ( 
     <div>
       <button onClick={sorteeriAZ}>Sorteeri AZ</button>

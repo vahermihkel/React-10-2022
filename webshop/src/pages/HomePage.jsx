@@ -33,8 +33,22 @@ function HomePage() {
   }
 
   const addToCart = (productClicked) => {
-    // TEHKE KODUS VALMIS EESTI KEELSE JÄRGI
-    // let cart = sessionStorage.getItem("cart");
+    let cart = sessionStorage.getItem("cart");
+    cart = JSON.parse(cart) || [];
+    // cart.push(productClicked);
+    const index = cart.findIndex(element => element.product_id === productClicked.id);
+    if (index >= 0) { // kas toode on olemas või mitte, pidin .find() tegema kontrolli kas on undefined
+      // kas on toode olemas või mitte .findIndex()   ---> pean kontrollimas kas on suurem/võrdne 0 ehk ei ole -1
+      cart[index].quantity = cart[index].quantity + 1;
+      // cart[index].quantity += 1;
+      // cart[index].quantity++;
+    } else {
+      // {id: 312, name: "asda", price: 3123, ...}
+      // {product_id: 312, quantity: 1}
+      cart.push({product_id: productClicked.id, quantity: 1})
+    }
+    cart = JSON.stringify(cart);
+    sessionStorage.setItem("cart", cart);
   }
 
   const filterByCategory = (categoryClicked) => {

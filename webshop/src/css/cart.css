@@ -1,0 +1,27 @@
+.product {
+  display: flex; /* elemendid tema sees vasakult paremale */
+  justify-content: space-between;
+  margin: 0 10%;
+  padding: 10px 0;
+  border-bottom: 1px solid lightgray;
+}
+
+.image {
+
+}
+
+.name {
+
+}
+
+.price {
+
+}
+
+.quantity {
+
+}
+
+.button {
+
+}

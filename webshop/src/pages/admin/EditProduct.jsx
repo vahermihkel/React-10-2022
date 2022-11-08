@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import productsFromFile from "../../data/products.json";
@@ -36,12 +37,33 @@ function EditProduct() {
     navigate("/admin/maintain-products");
   }
 
+  const [idUnique, setIdUnique] = useState(true);
+
+  const checkIdUniqueness = () => {
+    if (params.id === idRef.current.value) {
+      setIdUnique(true);
+      console.log("PANID SAMA ID TAGASI");
+      return; // selle kohaga saab funktsioon läbi
+    } 
+      
+    const found = productsFromFile.find(element => element.id === Number(idRef.current.value));
+    if (found === undefined) {
+      setIdUnique(true);
+      console.log("KEDAGI SELLISE ID-GA EI LEIDNUD, UNIKAALNE!");
+    } else {
+      setIdUnique(false);
+      console.log("LEIDSIN KELLELGI SELLISE ID, MITTEUNIKAALNE!");
+    }
+    
+  }
+
   return ( 
     <div>
       { productFound !== undefined && 
         <div>
+         { idUnique === false && <div>Sisestatud ID on kellelgi teisel olemas!</div>}
           <label>ID</label> <br />
-          <input ref={idRef} defaultValue={productFound.id} type="number" /> <br />
+          <input ref={idRef} onChange={checkIdUniqueness} defaultValue={productFound.id} type="number" /> <br />
           <label>Nimi</label> <br />
           <input ref={nameRef} defaultValue={productFound.name} type="text" /> <br />
           <label>Hind</label> <br />
@@ -54,7 +76,8 @@ function EditProduct() {
           <input ref={descriptionRef} defaultValue={productFound.description} type="text" /> <br />
           <label>Aktiivne</label> <br />
           <input ref={activeRef} defaultChecked={productFound.active} type="checkbox" /> <br />
-          <button onClick={update}>Uuenda</button>
+          <button disabled={idUnique === false} onClick={update}>Uuenda</button>
+               {/* disabled={!idUnique} */}
         </div>
       }
       { productFound === undefined && <div>Toodet ei leitud</div>}

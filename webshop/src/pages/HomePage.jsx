@@ -2,15 +2,17 @@
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { useEffect, useState } from "react";
+import config from "../data/config.json";
+import { ToastContainer, toast } from 'react-toastify';
 
 function HomePage() {
   const [dbProducts, setDbProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const categories = [...new Set(dbProducts.map(product => product.category))];
-  const productsDbUrl = "https://mihkel-react-10-2022-default-rtdb.europe-west1.firebasedatabase.app/products.json";
+  // const productsDbUrl = "https://mihkel-react-10-2022-default-rtdb.europe-west1.firebasedatabase.app/products.json";
 
   useEffect(() => {
-    fetch(productsDbUrl)
+    fetch(config.productsDbUrl)
       .then(res => res.json())
       .then(json => {
           setProducts(json);
@@ -61,6 +63,10 @@ function HomePage() {
     }
     cart = JSON.stringify(cart);
     sessionStorage.setItem("cart", cart);
+    toast.success("Edukalt ostukorvi lisatud!", {
+      position: 'bottom-right',
+      theme: 'dark'
+    });
   }
 
   const filterByCategory = (categoryClicked) => {
@@ -92,6 +98,7 @@ function HomePage() {
           <div>{element.price}</div>
           <Button onClick={() => addToCart(element)}>Lisa ostukorvi</Button>
         </div>)}
+      <ToastContainer />
     </div> );
 }
 

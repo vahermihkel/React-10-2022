@@ -1,10 +1,15 @@
 import { useMemo, useEffect, useState } from "react";
-import productsFromFile from "../data/products.json";
+// import productsFromFile from "../data/products.json";
 import "../css/cart.css";
 import { Link } from "react-router-dom";
+import config from "../data/config.json";
+
+// agiilne -> iga tund makstakse kinni, koguaeg presenteerime mida valmis oleme teinud kliendile
+//            klient koguaeg muudab
+// waterfall -> tehakse tükitööna, kõigepealt arutleme paika mida vaja, siis hinna
+//            ja siis teeme
 
 function Cart() {
-  // Tehke sessionStorage-st ostukorvi võtmine
   const cartSS = useMemo(() => JSON.parse(sessionStorage.getItem("cart")) || [],[]);
   const [cart, setCart] = useState([]);
   const [parcelMachines, setParcelMachines] = useState([]);
@@ -13,13 +18,18 @@ function Cart() {
     fetch("https://www.omniva.ee/locations.json")
       .then(res => res.json())
       .then(json => setParcelMachines(json));
-    const cartWithProducts = cartSS.map(element => {
-      return {
-        "product": productsFromFile.find(product => product.id === element.product_id), 
-        "quantity": element.quantity
-      }
-    });
-    setCart(cartWithProducts);
+
+    fetch(config.productsDbUrl)
+      .then(res => res.json())
+      .then(json => {
+        const cartWithProducts = cartSS.map(element => {
+          return {
+            "product": json.find(product => product.id === element.product_id), 
+            "quantity": element.quantity
+          }
+        });
+        setCart(cartWithProducts.filter(element => element.product !== undefined));
+      });
   }, [cartSS]);
 
   const removeFromCart = (productIndex) => {
@@ -69,27 +79,35 @@ function Cart() {
 
   return ( 
     <div>
-      { cart.length > 0 && <button onClick={emptyCart}>Tühjenda ostukorv</button> }
-      { cart.length > 0 && <div>{cart.length} tk</div> }
+      { cart.length > 0 && 
+        <div className="cart-top">
+          <button onClick={emptyCart}>Tühjenda ostukorv</button>
+          <div>Ostukorvis esemeid: {cart.length} tk</div>
+        </div>}
       { cart.map((element, index) => 
         <div className="product" key={index}>
           <img className="image" src={element.product.image} alt="" />
           <div className="name">{element.product.name}</div>
           <div className="price">{element.product.price} €</div>
-          <button onClick={() => decreaseQuantity(index)}>-</button>
-          <div className="quantity">{element.quantity} tk</div>
-          <button onClick={() => increaseQuantity(index)}>+</button>
-          <div>{ element.product.price * element.quantity } €</div>
-          <button className="button" onClick={() => removeFromCart(index)}>x</button>
+          <div className="quantity">
+            <img className="button" onClick={() => decreaseQuantity(index)} src={require("../images/minus.png")} alt="" />
+            <div>{element.quantity} tk</div>
+            <img className="button" onClick={() => increaseQuantity(index)} src={require("../images/add.png")} alt="" />
+          </div>
+          <div className="sum">{ element.product.price * element.quantity } €</div>
+          <img className="button" onClick={() => removeFromCart(index)} src={require("../images/delete.png")} alt="" />
         </div>)}
 
-      { cart.length > 0 &&  <div>Ostukorvikogusumma: {calculateCartSum()}</div>}
+     { cart.length > 0 &&
+      <div className="cart-bottom">
+       <div>Ostukorvi kogusumma: {calculateCartSum()}</div>
 
-      { cart.length > 0 && <select>
+       <select>
         {parcelMachines
         .filter(element => element.A0_NAME === "EE" && element.ZIP !== "96331")
         .map(element => <option key={element.NAME}>{element.NAME}</option>)}
-      </select>}
+      </select>
+     </div>}
 
       { cart.length === 0 && <div>Ostukorv on tühi. <Link to="/">Tooteid valima</Link> </div> }
     </div> );

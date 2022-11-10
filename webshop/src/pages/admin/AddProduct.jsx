@@ -1,6 +1,9 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+// import productsFromFile from "../../data/products.json";
+import config from "../../data/config.json";
 
 function AddProduct() {
+  const [dbProducts, setDbProducts] = useState([]);
   const idRef = useRef();
   const nameRef = useRef();
   const priceRef = useRef();
@@ -8,6 +11,15 @@ function AddProduct() {
   const categoryRef = useRef();
   const descriptionRef = useRef();
   const activeRef = useRef();
+
+  useEffect(() => {
+    fetch(config.productsDbUrl)
+      .then(res => res.json())
+      .then(json => {
+          // setProducts(json);
+          setDbProducts(json);
+        });
+  }, []);
 
   const add = () => {
     const newProduct = {
@@ -19,7 +31,7 @@ function AddProduct() {
       "description": descriptionRef.current.value,
       "active": activeRef.current.checked,
     }
-    productsFromFile.push(newProduct);
+    dbProducts.push(newProduct);
   }
 
   return ( 

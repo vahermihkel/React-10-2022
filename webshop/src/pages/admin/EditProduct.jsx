@@ -1,15 +1,14 @@
-import { useState } from "react";
-import { useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import productsFromFile from "../../data/products.json";
+// import productsFromFile from "../../data/products.json";
+import config from "../../data/config.json";
+import { useEffect, useRef, useState } from "react";
 
 function EditProduct() {
   //const { id } = useParams();  // console.log(id);
+  const [dbProducts, setDbProducts] = useState([]);
   const params = useParams();              //             49950471 === "49950471"
-
-  const productFound = productsFromFile.find(element => element.id === Number(params.id));
-  const index = productsFromFile.indexOf(productFound);
-  
+  const productFound = dbProducts.find(element => element.id === Number(params.id));
+  const index = dbProducts.indexOf(productFound);
   // const index2 = productsFromFile.findIndex(element => element.id === Number(params.id));
   // const productFound2 = productsFromFile[index2];
 
@@ -20,8 +19,16 @@ function EditProduct() {
   const categoryRef = useRef();
   const descriptionRef = useRef();
   const activeRef = useRef();
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(config.productsDbUrl)
+      .then(res => res.json())
+      .then(json => {
+          // setProducts(json);
+          setDbProducts(json);
+        });
+  }, []);
 
   const update = () => {
     const updatedProduct = {
@@ -33,7 +40,7 @@ function EditProduct() {
       "description": descriptionRef.current.value,
       "active": activeRef.current.checked,
     }
-    productsFromFile[index] = updatedProduct;
+    dbProducts[index] = updatedProduct;
     navigate("/admin/maintain-products");
   }
 
@@ -42,17 +49,14 @@ function EditProduct() {
   const checkIdUniqueness = () => {
     if (params.id === idRef.current.value) {
       setIdUnique(true);
-      console.log("PANID SAMA ID TAGASI");
       return; // selle kohaga saab funktsioon läbi
     } 
       
-    const found = productsFromFile.find(element => element.id === Number(idRef.current.value));
+    const found = dbProducts.find(element => element.id === Number(idRef.current.value));
     if (found === undefined) {
       setIdUnique(true);
-      console.log("KEDAGI SELLISE ID-GA EI LEIDNUD, UNIKAALNE!");
     } else {
       setIdUnique(false);
-      console.log("LEIDSIN KELLELGI SELLISE ID, MITTEUNIKAALNE!");
     }
     
   }

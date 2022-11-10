@@ -1,10 +1,22 @@
-import productsFromFile from "../data/products.json";
+// import productsFromFile from "../data/products.json";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import Spinner from "react-bootstrap/Spinner";
+import { useEffect, useState } from "react";
 
 function HomePage() {
-  const [products, setProducts] = useState(productsFromFile.slice());
-  const categories = [...new Set(productsFromFile.map(product => product.category))];
+  const [dbProducts, setDbProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const categories = [...new Set(dbProducts.map(product => product.category))];
+  const productsDbUrl = "https://mihkel-react-10-2022-default-rtdb.europe-west1.firebasedatabase.app/products.json";
+
+  useEffect(() => {
+    fetch(productsDbUrl)
+      .then(res => res.json())
+      .then(json => {
+          setProducts(json);
+          setDbProducts(json);
+        });
+  }, []);
 
   // sorteerimist    .sort()   localeCompare
   // võtame kõik kategooriad toodete küljest ja kuvame need -> ["guitar", "drum"]   .map()
@@ -52,8 +64,12 @@ function HomePage() {
   }
 
   const filterByCategory = (categoryClicked) => {
-    const result = productsFromFile.filter(product => product.category === categoryClicked);
+    const result = dbProducts.filter(product => product.category === categoryClicked);
     setProducts(result);
+  }
+
+  if (products.length === 0) {
+    return (<Spinner animation="border" />)
   }
 
   return ( 

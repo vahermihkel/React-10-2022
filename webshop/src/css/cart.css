@@ -1,8 +1,8 @@
 .product {
   display: flex; /* elemendid tema sees vasakult paremale */
-  justify-content: space-between;
-  margin: 0 10%;
-  padding: 10px 0;
+  justify-content: space-between; /* ruumijaotus */
+  margin: 0 10%; /* eemale tõukamine, vasakpoolne on üles-alla, parempoolne vasakule-paremale */
+  padding: 10px 0; /* sissepoole tõukamine, vasakpoolne on üles-alla, parempoolne vasakule-paremale */
   border-bottom: 1px solid lightgray;
 }
 

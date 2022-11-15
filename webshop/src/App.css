@@ -11,3 +11,13 @@
 .lang:active {
   padding: 1px;
 }
+
+.active {
+  border: 1px solid green;
+  margin: 2px;
+}
+
+.inactive {
+  border: 1px solid red;
+  margin: 2px;
+}

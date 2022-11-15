@@ -15,8 +15,8 @@ function HomePage() {
     fetch(config.productsDbUrl)
       .then(res => res.json())
       .then(json => {
-          setProducts(json);
-          setDbProducts(json);
+          setProducts(json || []);
+          setDbProducts(json || []);
         });
   }, []);
 

@@ -10,6 +10,9 @@ const resources = {
       "admin": "To admin view",
       "shops": "Our shops",
       "cart": "Cart",
+      "drums": "Drums",
+      "guitars": "Guitars",
+      "violins": "Violins"
     }
   },
   est: {
@@ -17,6 +20,9 @@ const resources = {
       "admin": "Administraatori vaatesse",
       "shops": "Meie poed",
       "cart": "Ostukorv",
+      "drums": "Trummid",
+      "guitars": "Kitarrid",
+      "violins": "Viiulid"
     }
   }
 };

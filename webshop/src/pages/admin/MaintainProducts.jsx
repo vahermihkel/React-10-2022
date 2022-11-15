@@ -3,6 +3,7 @@ import config from "../../data/config.json";
 import Button from "react-bootstrap/Button";
 import { useEffect,useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 function MaintainProducts() {
   const [dbProducts, setDbProducts] = useState([]);
@@ -13,8 +14,8 @@ function MaintainProducts() {
     fetch(config.productsDbUrl)
       .then(res => res.json())
       .then(json => {
-          setProducts(json);
-          setDbProducts(json);
+          setProducts(json || []);
+          setDbProducts(json || []);
         });
   }, []);
 
@@ -28,10 +29,35 @@ function MaintainProducts() {
   }
 
   const deleteProduct = (productClicked) => {
-    // const productIndex = productsFromFile.findIndex(element => element.id === productClicked.id);
-    // productsFromFile.splice(productIndex, 1);
-    // setProducts(productsFromFile.slice());
+    const productIndex = dbProducts.findIndex(element => element.id === productClicked.id);
+    const updatedProducts = dbProducts.slice();
+    updatedProducts.splice(productIndex, 1);
     // KUI VÄHENDAN OTSINGUMOOTORIS, SIIS JÄRJEKORRANUMBRID MUUTUVAD
+    fetch(config.productsDbUrl, {"method": "PUT", "body": JSON.stringify(updatedProducts)})
+      .then(() => {
+        toast.success("Edukalt kustutatud!", {
+          position: 'bottom-right',
+          theme: 'dark'
+        });
+        dbProducts.splice(productIndex, 1);
+        search();
+      });
+  }
+
+  const changeProductActive = (productClicked) => {
+    const productIndex = dbProducts.findIndex(element => element.id === productClicked.id);
+    const updatedProducts = dbProducts.slice();
+    // updatedProducts.splice(productIndex, 1);
+    updatedProducts[productIndex].active = !updatedProducts[productIndex].active;
+    // dbProducts[productIndex].active = !dbProducts[productIndex].active;
+    fetch(config.productsDbUrl, {"method": "PUT", "body": JSON.stringify(dbProducts)})
+      .then(() => {
+        // dbProducts.splice(productIndex, 1);
+        dbProducts[productIndex].active = updatedProducts[productIndex].active;
+        // search();
+        // setProducts(dbProducts);
+        search();
+      });
   }
 
   return ( 
@@ -39,16 +65,22 @@ function MaintainProducts() {
       <input ref={searchedProduct} onKeyUp={search} type="text" />
       <span>Tooteid kokku {products.length}</span>
        {products.map((element) => 
-        <div key={element.id}>
-          <img src={element.image} alt="" />
-          <div>{element.name}</div>
-          <div>{element.price}</div>
+        <div className={ element.active === true ? "active" : "inactive" } key={element.id}>
+          <div onClick={() => changeProductActive(element)}>
+            <img src={element.image} alt="" />
+            <div>{element.name}</div>
+            <div>{element.price}</div>
+            <div>{element.category}</div>
+            <div>{element.description}</div>
+            <div>ID: {element.id}</div>
+          </div>
           {/* <Link to={`/admin/edit-product/${element.id}`}>   string literal */}
           <Link to={"/admin/edit-product/" + element.id}>
             <Button>Muuda</Button>
           </Link>
           <Button onClick={() => deleteProduct(element)}>Kustuta</Button>
         </div>)}
+        <ToastContainer />
     </div> );
 }
 

@@ -2,10 +2,14 @@ import { useNavigate, useParams } from "react-router-dom";
 // import productsFromFile from "../../data/products.json";
 import config from "../../data/config.json";
 import { useEffect, useRef, useState } from "react";
+import { Spinner } from "react-bootstrap";
 
 function EditProduct() {
   //const { id } = useParams();  // console.log(id);
   const [dbProducts, setDbProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const params = useParams();              //             49950471 === "49950471"
   const productFound = dbProducts.find(element => element.id === Number(params.id));
   const index = dbProducts.indexOf(productFound);
@@ -22,12 +26,20 @@ function EditProduct() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(config.productsDbUrl)
+    setIsLoading(true);
+    fetch(config.categoriesDbUrl)
       .then(res => res.json())
       .then(json => {
-          // setProducts(json);
-          setDbProducts(json);
-        });
+        setCategories(json || []);
+
+        fetch(config.productsDbUrl)
+        .then(res => res.json())
+        .then(json => {
+            // setProducts(json);
+            setDbProducts(json || []);
+            setIsLoading(false);
+          });
+      });
   }, []);
 
   const update = () => {
@@ -41,7 +53,11 @@ function EditProduct() {
       "active": activeRef.current.checked,
     }
     dbProducts[index] = updatedProduct;
-    navigate("/admin/maintain-products");
+
+    fetch(config.productsDbUrl, {"method": "PUT", "body": JSON.stringify(dbProducts)})
+    .then(() => {
+      navigate("/admin/maintain-products");
+    });
   }
 
   const [idUnique, setIdUnique] = useState(true);
@@ -75,7 +91,14 @@ function EditProduct() {
           <label>Pilt</label> <br />
           <input ref={imageRef} defaultValue={productFound.image} type="text" /> <br />
           <label>Kategooria</label> <br />
-          <input ref={categoryRef} defaultValue={productFound.category} type="text" /> <br />
+          {/* <input ref={categoryRef} defaultValue={productFound.category} type="text" /> <br /> */}
+          <select ref={categoryRef} defaultValue={productFound.category}>
+            { categories.map((element, index) => 
+              <option key={index}>
+                {element.name}
+              </option>
+              ) }
+          </select> <br />
           <label>Kirjeldus</label> <br />
           <input ref={descriptionRef} defaultValue={productFound.description} type="text" /> <br />
           <label>Aktiivne</label> <br />
@@ -84,7 +107,8 @@ function EditProduct() {
                {/* disabled={!idUnique} */}
         </div>
       }
-      { productFound === undefined && <div>Toodet ei leitud</div>}
+      { productFound === undefined && isLoading === false && <div>Toodet ei leitud</div>}
+      { isLoading === true && <Spinner animation="border" />}
     </div> );
 }
 

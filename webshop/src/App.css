@@ -21,3 +21,14 @@
   border: 1px solid red;
   margin: 2px;
 }
+
+.map {
+  height: 300px;
+}
+
+.footer {
+  background-color: #212529;
+  color: white;
+  height: 100px;
+  margin-top: 50px;
+}

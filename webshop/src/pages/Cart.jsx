@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import config from "../data/config.json";
 import ParcelMachines from "../components/ParcelMachines";
 import Payment from "../components/Payment";
+import { Spinner } from "react-bootstrap";
 
 // agiilne -> iga tund makstakse kinni, koguaeg presenteerime mida valmis oleme teinud kliendile
 //            klient koguaeg muudab
@@ -14,8 +15,10 @@ import Payment from "../components/Payment";
 function Cart() {
   const cartSS = useMemo(() => JSON.parse(sessionStorage.getItem("cart")) || [],[]);
   const [cart, setCart] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(config.productsDbUrl)
       .then(res => res.json())
       .then(json => {
@@ -26,6 +29,7 @@ function Cart() {
           }
         });
         setCart(cartWithProducts.filter(element => element.product !== undefined));
+        setIsLoading(false);
       });
   }, [cartSS]);
 
@@ -74,6 +78,9 @@ function Cart() {
     sessionStorage.setItem("cart", JSON.stringify(cartSS));
   }
 
+  if (isLoading === true) {
+    return (<Spinner animation="border" />)
+  }
 
   return ( 
     <div>

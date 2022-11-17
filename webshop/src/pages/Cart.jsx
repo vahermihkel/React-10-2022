@@ -3,6 +3,8 @@ import { useMemo, useEffect, useState } from "react";
 import "../css/cart.css";
 import { Link } from "react-router-dom";
 import config from "../data/config.json";
+import ParcelMachines from "../components/ParcelMachines";
+import Payment from "../components/Payment";
 
 // agiilne -> iga tund makstakse kinni, koguaeg presenteerime mida valmis oleme teinud kliendile
 //            klient koguaeg muudab
@@ -12,13 +14,8 @@ import config from "../data/config.json";
 function Cart() {
   const cartSS = useMemo(() => JSON.parse(sessionStorage.getItem("cart")) || [],[]);
   const [cart, setCart] = useState([]);
-  const [parcelMachines, setParcelMachines] = useState([]);
 
   useEffect(() => {
-    fetch("https://www.omniva.ee/locations.json")
-      .then(res => res.json())
-      .then(json => setParcelMachines(json));
-
     fetch(config.productsDbUrl)
       .then(res => res.json())
       .then(json => {
@@ -77,6 +74,7 @@ function Cart() {
     sessionStorage.setItem("cart", JSON.stringify(cartSS));
   }
 
+
   return ( 
     <div>
       { cart.length > 0 && 
@@ -102,11 +100,9 @@ function Cart() {
       <div className="cart-bottom">
        <div>Ostukorvi kogusumma: {calculateCartSum()}</div>
 
-       <select>
-        {parcelMachines
-        .filter(element => element.A0_NAME === "EE" && element.ZIP !== "96331")
-        .map(element => <option key={element.NAME}>{element.NAME}</option>)}
-      </select>
+      <ParcelMachines />
+      <br />
+      <Payment sum={calculateCartSum()} />
      </div>}
 
       { cart.length === 0 && <div>Ostukorv on tühi. <Link to="/">Tooteid valima</Link> </div> }

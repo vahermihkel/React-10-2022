@@ -105,7 +105,7 @@ function Cart() {
             <div>{element.quantity} tk</div>
             <img className="button" onClick={() => increaseQuantity(index)} src={require("../images/add.png")} alt="" />
           </div>
-          <div className="sum">{ element.product.price * element.quantity } €</div>
+          <div className="sum">{ (element.product.price * element.quantity).toFixed(2) } €</div>
           <img className="button" onClick={() => removeFromCart(index)} src={require("../images/delete.png")} alt="" />
         </div>)}
 

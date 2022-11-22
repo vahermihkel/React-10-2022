@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Map from '../components/Map';
+import Map from '../components/map/Map';
 
 function Shops() {
   const [coordinaates, setCoordinates] = useState({lngLat: [59.4378, 24.7574], zoom: 11});

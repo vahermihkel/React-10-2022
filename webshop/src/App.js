@@ -12,8 +12,8 @@ import MaintainCategories from "./pages/admin/MaintainCategories";
 import MaintainProducts from "./pages/admin/MaintainProducts";
 import MaintainShops from "./pages/admin/MaintainShops";
 import { Route, Routes } from 'react-router-dom';
-import NavigationBar from './components/NavigationBar';
-import Footer from "./components/Footer";
+import NavigationBar from './components/global/NavigationBar';
+import Footer from "./components/global/Footer";
 
 function App() {
   return (

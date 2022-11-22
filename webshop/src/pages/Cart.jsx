@@ -3,9 +3,11 @@ import { useMemo, useEffect, useState } from "react";
 import "../css/cart.css";
 import { Link } from "react-router-dom";
 import config from "../data/config.json";
-import ParcelMachines from "../components/ParcelMachines";
-import Payment from "../components/Payment";
+import ParcelMachines from "../components/cart/ParcelMachines";
+import Payment from "../components/cart/Payment";
 import { Spinner } from "react-bootstrap";
+import { useContext } from "react";
+import CartSumContext from "../store/CartSumContext";
 
 // agiilne -> iga tund makstakse kinni, koguaeg presenteerime mida valmis oleme teinud kliendile
 //            klient koguaeg muudab
@@ -16,6 +18,7 @@ function Cart() {
   const cartSS = useMemo(() => JSON.parse(sessionStorage.getItem("cart")) || [],[]);
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const cartSumCtx = useContext(CartSumContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -38,17 +41,13 @@ function Cart() {
     cart.splice(productIndex, 1); // HTML jaoks
     setCart(cart.slice());
     sessionStorage.setItem("cart", JSON.stringify(cartSS));
+    cartSumCtx.setCartSum(calculateCartSum());
   }
 
   const emptyCart = () => {
     setCart([]);
     sessionStorage.setItem("cart", JSON.stringify([]));
-  }
-
-  const calculateCartSum = () => {
-    let cartSum = 0;
-    cart.forEach(element => cartSum = cartSum + element.product.price * element.quantity);
-    return cartSum.toFixed(2);
+    cartSumCtx.setCartSum("0.00");
   }
 
   // [{id:12, nimi: "CC"},{id: 23, nimi:"F"}]
@@ -64,7 +63,7 @@ function Cart() {
     }
     setCart(cart.slice());
     sessionStorage.setItem("cart", JSON.stringify(cartSS));
-
+    cartSumCtx.setCartSum(calculateCartSum());
     //[{product: {nimi:"Nobe"}, kogus: 12}, {product: {nimi:"Tesla"}, kogus: 12}][1]
     // {product: {nimi:"Tesla"}, kogus: 12}.kogus = {product: {nimi:"Tesla"}, kogus: 12}.kogus - 1;
   }
@@ -76,6 +75,13 @@ function Cart() {
     cart[productIndex].quantity++;
     setCart(cart.slice());
     sessionStorage.setItem("cart", JSON.stringify(cartSS));
+    cartSumCtx.setCartSum(calculateCartSum());
+  }
+
+  const calculateCartSum = () => {
+    let cartSum = 0;
+    cart.forEach(element => cartSum = cartSum + element.product.price * element.quantity);
+    return cartSum.toFixed(2);
   }
 
   if (isLoading === true) {

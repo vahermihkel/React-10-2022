@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../../store/AuthContext';
 import CartSumContext from "../../store/CartSumContext";
 
@@ -11,6 +11,7 @@ function NavigationBar() {
   const { t, i18n } = useTranslation();
   const cartSumCtx = useContext(CartSumContext);
   const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // const changeLangEST = () => {
   //   i18n.changeLanguage("est");
@@ -25,6 +26,9 @@ function NavigationBar() {
   const changeLang = (newLang) => {
     i18n.changeLanguage(newLang);
     localStorage.setItem("language", newLang);
+    // window.location.reload();
+    navigate("/");
+    // navigate("/" + t("url." + window.location.href.split("localhost:3000/")[1]));
   }
 
   const logout = () => {
@@ -36,9 +40,9 @@ function NavigationBar() {
       <Container>
         <Navbar.Brand as={Link} to="/">Webshop</Navbar.Brand>
         <Nav className="me-auto">
-          { authCtx.loggedIn === true && <Nav.Link as={Link} to="/admin">{t('admin')}</Nav.Link>}
-          <Nav.Link as={Link} to="/shops">{t('shops')}</Nav.Link>
-          <Nav.Link as={Link} to="/cart">{t('cart')}</Nav.Link>
+          { authCtx.loggedIn === true && <Nav.Link as={Link} to={"/" + t("url.admin")}>{t('nav.admin')}</Nav.Link>}
+          <Nav.Link as={Link} to={"/" + t("url.shops")}>{t('nav.shops')}</Nav.Link>
+          <Nav.Link as={Link} to={"/" + t("url.cart")}>{t('nav.cart')}</Nav.Link>
           { authCtx.loggedIn === false && 
             <>
               <Nav.Link as={Link} to="/login">Logi sisse</Nav.Link>

@@ -1,0 +1,29 @@
+{
+  "translation": {
+    "nav": {
+      "admin": "Administraatori vaatesse",
+      "shops": "Meie poed",
+      "cart": "Ostukorv"
+    },
+    "url": {
+      "admin": "admin",
+      "shops": "poed",
+      "cart": "ostukorv"
+    },
+    "drums": "Trummid",
+    "guitars": "Kitarrid",
+    "violins": "Viiulid",
+    "firebase": {
+      "USER_DISABLED": "Kasutaja kinni keeratud",
+      "EMAIL_NOT_FOUND": "Emaili ei leitud",
+      "INVALID_EMAIL": "Mittevaliidne e-mail",
+      "EMAIL_EXISTS": "Email juba eksisteerib",
+      "MISSING_PASSWORD": "Parool puudu",
+      "INVALID_PASSWORD": "Mittevaliidne parool",
+      "WEAK_PASSWORD : Password should be at least 6 characters": "Parool peab olema vähemalt 6 tähemärki",
+      "OPERATION_NOT_ALLOWED": "Tegevus pole lubatud",
+      "TOO_MANY_ATTEMPTS_TRY_LATER": "Liiga palju katsetusi, proovi hiljem"
+    },
+    "added-to-cart": "Edukalt ostukorvi lisatud"
+  }
+}

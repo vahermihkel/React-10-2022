@@ -2,14 +2,16 @@ import { useEffect, useRef, useState } from "react";
 // import productsFromFile from "../../data/products.json";
 import config from "../../data/config.json";
 import { ToastContainer, toast } from 'react-toastify';
+import FileUpload from "../../components/FileUpload";
 
 function AddProduct() {
   const [dbProducts, setDbProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [imageUrl, setImageUrl] = useState("")
   const idRef = useRef();
   const nameRef = useRef();
   const priceRef = useRef();
-  const imageRef = useRef();
+  // const imageRef = useRef();
   const categoryRef = useRef();
   const descriptionRef = useRef();
   const activeRef = useRef();
@@ -39,7 +41,7 @@ function AddProduct() {
       "id": Number(idRef.current.value),
       "name": nameRef.current.value,
       "price": Number(priceRef.current.value),
-      "image": imageRef.current.value,
+      "image": imageUrl,
       "category": categoryRef.current.value,
       "description": descriptionRef.current.value,
       "active": activeRef.current.checked,
@@ -50,7 +52,7 @@ function AddProduct() {
       idRef.current.value = "";
       nameRef.current.value = "";
       priceRef.current.value = "";
-      imageRef.current.value = "";
+      // imageRef.current.value = "";
       categoryRef.current.value = "";
       descriptionRef.current.value = "";
       activeRef.current.checked = false;
@@ -70,7 +72,8 @@ function AddProduct() {
       <label>Hind</label> <br />
       <input ref={priceRef} type="number" /> <br />
       <label>Pilt</label> <br />
-      <input ref={imageRef} type="text" /> <br />
+      {/* <input ref={imageRef} type="text" /> <br /> */}
+      <FileUpload onSendPictureUrl={setImageUrl} />
       <label>Kategooria</label> <br />
       {/* <input ref={categoryRef} type="text" /> <br /> */}
       <select ref={categoryRef}>

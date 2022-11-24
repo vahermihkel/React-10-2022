@@ -18,9 +18,11 @@ import { useContext } from 'react';
 import AuthContext from './store/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { useTranslation } from 'react-i18next';
 
 function App() {
   const authContext = useContext(AuthContext);
+  const { t } = useTranslation();
 
   return (
     <div className="App">
@@ -29,8 +31,8 @@ function App() {
 
       <Routes>
         <Route path="" element={ <HomePage /> } />
-        <Route path="cart" element={ <Cart /> } />
-        <Route path="shops" element={ <Shops /> } />
+        <Route path={t("url.cart")} element={ <Cart /> } />
+        <Route path={t("url.shops")} element={ <Shops /> } />
         <Route path="product" element={ <SingleProduct /> } />
         <Route path="contact" element={ <Contact /> } />
         { authContext.loggedIn === false &&
@@ -46,7 +48,7 @@ function App() {
           </>}
         { authContext.loggedIn === true &&
          <>
-          <Route path="admin" element={ <AdminHome /> } />
+          <Route path={t("url.admin")} element={ <AdminHome /> } />
           <Route path="admin/add-product" element={ <AddProduct /> } />
           <Route path="admin/edit-product/:id" element={ <EditProduct /> } />
           <Route path="admin/maintain-products" element={ <MaintainProducts /> } />
@@ -64,3 +66,18 @@ function App() {
 }
 
 export default App;
+
+// Firebase-i sisselogimine ja registreerumine+++
+// Firebase-i piltide üles laadimine+++
+// Karusell-galerii
+// Wordpressi backendiks + leheküljed + infinite scroll
+// Kujundus
+
+// 24.11 - Nortali proovitöö + Karusell-galerii + Wordpressi alustamine
+// 29.11 - Wordpress - igal ajal proovitöö osas ehk mingi tõstatus
+// 01.12 - Wordpress - igal ajal proovitöö osas ehk mingi tõstatus
+// 06.12 - pisike arutelu iseseisva projekti osas + Wordpress - igal ajal proovitöö osas ehk mingi tõstatus
+
+// 15.12 --> 2ak/h 17.30-19.00 lõpuprojekti esitlus
+// ainuke nõue on, et see oleks tehtud Reactis
+// näitate veebilehte ja põgusalt ka koodi

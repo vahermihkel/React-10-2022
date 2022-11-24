@@ -5,9 +5,9 @@ const AuthContext = createContext(null);
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("token") !== null);
 
-  const loginHandler = () => {
+  const loginHandler = (idToken) => {
     setIsLoggedIn(true);
-    sessionStorage.setItem("token", "abc");
+    sessionStorage.setItem("token", idToken);
   }
 
   const logoutHandler = () => {

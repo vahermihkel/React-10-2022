@@ -1,3 +1,8 @@
+.carousel {
+  width: 500px;
+  margin: auto;
+}
+
 .lang {
   width: 30px;
   height: 30px;
@@ -12,12 +17,12 @@
   padding: 1px;
 }
 
-.active {
+.active-product {
   border: 1px solid green;
   margin: 2px;
 }
 
-.inactive {
+.inactive-product {
   border: 1px solid red;
   margin: 2px;
 }

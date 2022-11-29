@@ -43,11 +43,11 @@
   cursor: pointer;
 }
 
-.cart-bottom {
+.cart__bottom {
   text-align: right;
   margin-right: 10%;
 }
 
-.cart-top {
+.cart__top {
   margin-left: 10%;
 }

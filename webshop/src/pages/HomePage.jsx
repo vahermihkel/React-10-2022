@@ -6,6 +6,7 @@ import config from "../data/config.json";
 import { ToastContainer, toast } from 'react-toastify';
 import SortButtons from "../components/home/SortButtons";
 import Product from "../components/home/Product";
+import CarouselGallery from "../components/home/CarouselGallery";
 
 function HomePage() {
   const [dbProducts, setDbProducts] = useState([]);
@@ -33,6 +34,8 @@ function HomePage() {
 
   return ( 
     <div>
+      <CarouselGallery />
+
       {categories.map(element => 
       <button key={element} onClick={() => filterByCategory(element)}>
         {element}
@@ -42,7 +45,7 @@ function HomePage() {
 
       <SortButtons products={products} setProducts={setProducts} />
       {products.map(element => 
-          <Product product={element} showToast={toast} />
+          <Product key={element.id} product={element} showToast={toast} />
         )}
       <ToastContainer />
     </div> );

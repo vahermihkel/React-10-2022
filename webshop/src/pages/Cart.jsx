@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useState } from "react";
 // import productsFromFile from "../data/products.json";
-import "../css/cart.css";
+import styles from "../css/Cart.module.css";
 import { Link } from "react-router-dom";
 import config from "../data/config.json";
 import ParcelMachines from "../components/cart/ParcelMachines";
@@ -91,26 +91,28 @@ function Cart() {
   return ( 
     <div>
       { cart.length > 0 && 
-        <div className="cart-top">
+        <div className={styles.cart__top}>
+        {/* <div className={styles['cart-top']}>
+        <div className={styles.cart-top}> */}
           <button onClick={emptyCart}>Tühjenda ostukorv</button>
           <div>Ostukorvis esemeid: {cart.length} tk</div>
         </div>}
       { cart.map((element, index) => 
-        <div className="product" key={index}>
-          <img className="image" src={element.product.image} alt="" />
-          <div className="name">{element.product.name}</div>
-          <div className="price">{element.product.price} €</div>
-          <div className="quantity">
-            <img className="button" onClick={() => decreaseQuantity(index)} src={require("../images/minus.png")} alt="" />
+        <div className={styles.product} key={index}>
+          <img className={styles.image} src={element.product.image} alt="" />
+          <div className={styles.name}>{element.product.name}</div>
+          <div className={styles.price}>{element.product.price} €</div>
+          <div className={styles.quantity}>
+            <img className={styles.button} onClick={() => decreaseQuantity(index)} src={require("../images/minus.png")} alt="" />
             <div>{element.quantity} tk</div>
-            <img className="button" onClick={() => increaseQuantity(index)} src={require("../images/add.png")} alt="" />
+            <img className={styles.button} onClick={() => increaseQuantity(index)} src={require("../images/add.png")} alt="" />
           </div>
-          <div className="sum">{ (element.product.price * element.quantity).toFixed(2) } €</div>
-          <img className="button" onClick={() => removeFromCart(index)} src={require("../images/delete.png")} alt="" />
+          <div className={styles.sum}>{ (element.product.price * element.quantity).toFixed(2) } €</div>
+          <img className={styles.button} onClick={() => removeFromCart(index)} src={require("../images/delete.png")} alt="" />
         </div>)}
 
      { cart.length > 0 &&
-      <div className="cart-bottom">
+      <div className={styles.cart__bottom}>
        <div>Ostukorvi kogusumma: {calculateCartSum()}</div>
 
       <ParcelMachines />

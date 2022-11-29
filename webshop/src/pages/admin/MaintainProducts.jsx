@@ -65,7 +65,7 @@ function MaintainProducts() {
       <input ref={searchedProduct} onKeyUp={search} type="text" />
       <span>Tooteid kokku {products.length}</span>
        {products.map((element) => 
-        <div className={ element.active === true ? "active" : "inactive" } key={element.id}>
+        <div className={ element.active === true ? "active-product" : "inactive-product" } key={element.id}>
           <div onClick={() => changeProductActive(element)}>
             <img src={element.image} alt="" />
             <div>{element.name}</div>

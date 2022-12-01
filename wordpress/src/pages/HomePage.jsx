@@ -1,5 +1,6 @@
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 import { useEffect, useState } from "react";
+import Pagination from 'react-bootstrap/Pagination';
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -36,8 +37,17 @@ function HomePage() {
     sessionStorage.setItem("cart", cart);
   }
 
+  const [active, setActivePage] = useState(2);
+  let items = [1,2,3,4,5];
+
   return (
     <div>
+      <Pagination>
+        {items.map( number => 
+          <Pagination.Item key={number} active={number === active} onClick={() => setActivePage(number)}>
+            {number}
+          </Pagination.Item>)}
+      </Pagination>
       {products.map((element, index) => 
         <div key={index}>
           <div>{element.name}</div>

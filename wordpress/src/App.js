@@ -2,6 +2,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Cart from './pages/Cart';
 import HomePage from './pages/HomePage';
+import PaymentCompleted from './pages/PaymentCompleted';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="" element={ <HomePage /> } />
         <Route path="ostukorv" element={ <Cart /> } />
+        <Route path="tellimus" element={ <PaymentCompleted /> } />
       </Routes>
     </div>
   );

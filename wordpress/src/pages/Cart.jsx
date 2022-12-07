@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import styles from "../css/Cart.module.css";
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 import Payment from "../components/Payment";
+import SendEmail from "../components/SendEmail";
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 
 function Cart() {
   const cartSS = useMemo(() => JSON.parse(sessionStorage.getItem("cart")) || [],[]);
   const [cart, setCart] = useState([]);
+  const [isPayment, setPayment] = useState(true);
 
   useEffect(() => {
     const api = new WooCommerceRestApi({
@@ -96,7 +100,20 @@ function Cart() {
        
        <div>Ostukorvi kogusumma: {calculateCartSum()}</div>
 
-       <Payment sum={calculateCartSum()} />
+
+       <ToggleButtonGroup type="radio" name="payment-method" defaultValue={1}>
+        <ToggleButton id="pay" value={1} onClick={() => setPayment(true)}>
+          Maksa kohe
+        </ToggleButton>
+        <ToggleButton id="pay-later" value={2} onClick={() => setPayment(false)}>
+          Maksa hiljem
+        </ToggleButton>
+      </ToggleButtonGroup>
+
+      { isPayment === true ? 
+        <Payment sum={calculateCartSum()}/> : 
+        <SendEmail cart={cart} sum={calculateCartSum()} />}
+
 
      </div>}
 

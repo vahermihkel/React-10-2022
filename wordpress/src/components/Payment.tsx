@@ -1,6 +1,7 @@
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
+import React from "react";
 
-function Payment(props) {
+function Payment(props: {sum: number}) {
 
   const sendOrderToDb = () => {
     const api = new WooCommerceRestApi({
@@ -14,13 +15,13 @@ function Payment(props) {
         }
       }
     });
-    console.log(JSON.parse(sessionStorage.getItem("cart")) || []);
+    console.log(JSON.parse(sessionStorage.getItem("cart") || "[]"));
     api.post("orders", {
-      line_items: JSON.parse(sessionStorage.getItem("cart")) || []
+      line_items: JSON.parse(sessionStorage.getItem("cart") || "[]")
     }).then(response => pay(response.data.id));
   }
   
-  const pay = (orderId) => {
+  const pay = (orderId: string) => {
     const paymentData = {
       "api_username": "92ddcfab96e34a5f",
       "account_name": "EUR3D1",

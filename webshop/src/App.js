@@ -78,6 +78,6 @@ export default App;
 // 01.12 - Wordpress - igal ajal proovitöö osas ehk mingi tõstatus
 // 06.12 - pisike arutelu iseseisva projekti osas + Wordpress - igal ajal proovitöö osas ehk mingi tõstatus
 
-// 15.12 --> 3ak/h 17.30-19.45 lõpuprojekti esitlus
+// R 16.12 --> 3ak/h 14.30-16.45 lõpuprojekti esitlus
 // ainuke nõue on, et see oleks tehtud Reactis
 // näitate veebilehte ja põgusalt ka koodi

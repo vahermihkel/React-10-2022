@@ -1,7 +1,7 @@
 import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 import { useEffect, useState } from "react";
 import Pagination from 'react-bootstrap/Pagination';
-import InfiniteScroll from "react-infinite-scroll-component";
+// import InfiniteScroll from "react-infinite-scroll-component";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -9,7 +9,6 @@ function HomePage() {
   const [items, setPages] = useState([]);
   const [isLoading, setLoading] = useState(false);
   
-
   const api = new WooCommerceRestApi({
     url: "http://localhost/wordpress/",
     consumerKey: "ck_661875e1e4a680a01b5fa0d0d0e4af8c9914b355",
